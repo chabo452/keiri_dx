@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>面談プレゼン資料（メリービズ向け）</title>
+<style>
+  :root{
+    --bg:#0f1220;
+    --card:#12162b;
+    --card-ink:#e8ebff;
+    --muted:#9aa3c7;
+    --accent:#ffd54a;
+    --ring: rgba(255,213,74,.3);
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --radius: 18px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: "Inter","Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 50% -10%, #1a1f3b 0%, #0f1220 55%, #0b0d18 100%);
+    color: var(--card-ink);
+    letter-spacing:.02em;
+  }
+
+  header{
+    padding:28px 20px 8px;
+    text-align:center;
+  }
+  header h1{
+    margin:0;
+    font-size: clamp(22px, 3.4vw, 38px);
+    font-weight:800;
+    line-height:1.15;
+  }
+  header p{
+    margin:.4rem 0 0;
+    color:var(--muted);
+    font-size: clamp(12px, 1.4vw, 14px);
+  }
+
+  .stage{
+    max-width: 1200px;
+    margin: 18px auto 40px;
+    padding: 0 16px;
+  }
+
+  /* --- cards row --- */
+  .cards{
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    align-items:flex-start;
+    position:relative;
+    transition: transform .35s ease, gap .35s ease;
+    will-change: transform;
+  }
+
+  .card{
+    background: linear-gradient(180deg, #171c35 0%, #12162b 100%);
+    border-radius: var(--radius);
+    width: min(360px, 30vw);
+    min-width: 260px;
+    box-shadow: var(--shadow);
+    padding: 18px 18px 16px;
+    border: 1px solid rgba(255,255,255,.06);
+    position:relative;
+    transition: box-shadow .3s ease, transform .35s ease, width .35s ease, filter .3s ease;
+    overflow:hidden;
+    isolation:isolate;
+  }
+
+  .card h2{
+    margin:2px 0 12px;
+    font-size: clamp(16px, 2.2vw, 20px);
+    font-weight:750;
+    letter-spacing:.01em;
+  }
+
+  .card p.lead{
+    margin: 4px 0 12px;
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+
+  .card ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:10px;
+  }
+
+  .card li{
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 12px;
+    padding:10px 12px;
+    line-height:1.45;
+    font-size: 14px;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    will-change: transform;
+  }
+  .card li:hover{
+    background: rgba(255,213,74,.1);
+    border-color: var(--ring);
+    transform: scale(1.04);
+    box-shadow: 0 6px 18px var(--ring);
+  }
+
+  /* --- hover expansion behavior --- */
+  .cards.expanding .card:not(.expanded){
+    transform: translateY(42vh);
+    filter: blur(0.3px) saturate(.9);
+  }
+
+  .card.expanded{
+    width: min(1000px, 96vw) !important;
+    transform: translateY(0) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0,0,0,.55), 0 0 0 1px var(--ring) inset;
+    border-color: var(--ring);
+    z-index: 5;
+  }
+
+  .card.expanded h2{
+    font-size: clamp(20px, 3vw, 28px);
+  }
+  .card.expanded li{
+    font-size: clamp(14px, 1.6vw, 16px);
+    padding: 12px 14px;
+  }
+
+  /* accent underline */
+  .card h2 span{
+    background: linear-gradient(120deg, rgba(255,213,74,.35), rgba(255,213,74,0));
+    border-bottom: 2px solid var(--accent);
+    padding: 0 4px 2px;
+    border-radius: 6px;
+    box-decoration-break: clone;
+  }
+
+  /* helper note under cards */
+  .hint{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin: 10px 0 0;
+    opacity:.9;
+  }
+
+  /* --- Miro area --- */
+  .miro-wrap{
+    margin-top: 46vh; /* space so下がったカードと干渉しない */
+  }
+  .miro{
+    margin: 24px auto 0;
+    max-width: 1200px;
+    border-radius: 14px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow: var(--shadow);
+  }
+  .miro iframe{
+    display:block;
+    width:100%;
+    height: 440px;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 980px){
+    .cards{gap:14px}
+    .cards.expanding .card:not(.expanded){ transform: translateY(46vh); }
+    .miro-wrap{ margin-top: 50vh; }
+  }
+  @media (max-width: 720px){
+    .card{ width: 100%; min-width: unset; }
+    .cards{ flex-direction: column; }
+    .cards.expanding .card:not(.expanded){ transform: translateY(0); opacity:.35; filter: blur(0.6px); }
+    .miro-wrap{ margin-top: 24px; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>面談プレゼン資料｜経理DXコンサル（メリービズ）</h1>
+    <p>ホバーで該当カードが拡大 &nbsp;—&nbsp; 他カードは下にスライドして視線を一点集中</p>
+  </header>
+
+  <main class="stage">
+    <section class="cards" id="cardsRow" aria-label="面談の要点">
+      <!-- 進め方（面談用） -->
+      <article class="card" data-card="flow" tabindex="0" aria-label="進め方（面談用）">
+        <h2><span>進め方（面談用）</span></h2>
+        <p class="lead">面談中、短時間で伝えるための見せ方ルールだけを明確化。</p>
+        <ul>
+          <li>短時間で説明するための<strong>項目表示のみ</strong>に絞る（余計な背景説明は外す）</li>
+          <li>口頭で触れる箇所は<strong>その場で強調</strong>（視線誘導のための拡大表示）</li>
+          <li>必要に応じて<strong>MIROで補助表示</strong>（フロー／成果例の可視化のみ）</li>
+        </ul>
+      </article>
+
+      <!-- 強み -->
+      <article class="card" data-card="strength" tabindex="0" aria-label="強み">
+        <h2><span>強み</span></h2>
+        <p class="lead">DX×会計クラウド×自動化。実務の効率化に直結させる型化が強み。</p>
+        <ul>
+          <li><strong>経理DX・業務改善</strong>：課題ヒアリング→To-Be設計→導入→運用定着</li>
+          <li><strong>クラウド導入・連携</strong>：freee／MF会計、労務連携、権限・マスタ設計</li>
+          <li><strong>自動化</strong>：GAS等で仕訳・集計の自動整理（タグ付け／検証ロジック）</li>
+          <li><strong>レポーティング</strong>：PL粒度の統一、勘定科目・タグ整備、精度管理</li>
+          <li><strong>推進力</strong>：経営・現場と合意形成し、短サイクルで改善を回す</li>
+        </ul>
+      </article>
+
+      <!-- マッチング -->
+      <article class="card" data-card="matching" tabindex="0" aria-label="マッチング">
+        <h2><span>マッチング</span></h2>
+        <p class="lead">募集要件の「DX/効率化/再構築」「クラウド導入」「BPO設計」に直結。</p>
+        <ul>
+          <li><strong>DX/再設計</strong>：現行棚卸→課題特定→To-Be業務フロー提案まで対応</li>
+          <li><strong>クラウド会計導入</strong>：初期設定・データ移行・テスト・運用の壁取り除き</li>
+          <li><strong>アウトソーシング設計</strong>：手順化・マニュアル化・品質チェック体制の設計</li>
+          <li><strong>稼働最適化</strong>：週16hでも初期診断→優先度順に着手し短期間で可視成果</li>
+        </ul>
+      </article>
+    </section>
+
+    <p class="hint">ヒント：各カードにマウスを乗せると拡大、他カードは下にスライドします。</p>
+
+    <section class="miro-wrap" aria-label="補助資料（MIRO）">
+      <div class="miro">
+        <iframe
+          src="https://miro.com/app/live-embed/uXjVJTzP7cg=/?embedMode=view_only_without_ui&moveToViewport=-907,-622,1638,741&embedId=137596054207"
+          frameborder="0" scrolling="no"
+          allow="fullscreen; clipboard-read; clipboard-write"
+          allowfullscreen
+          title="Miro 補助資料">
+        </iframe>
+      </div>
+    </section>
+  </main>
+
+<script>
+  (function(){
+    const row = document.getElementById('cardsRow');
+    const cards = Array.from(row.querySelectorAll('.card'));
+
+    const expand = (el) => {
+      row.classList.add('expanding');
+      el.classList.add('expanded');
+    };
+    const collapseAll = () => {
+      row.classList.remove('expanding');
+      cards.forEach(c => c.classList.remove('expanded'));
+    };
+
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => expand(card));
+      card.addEventListener('focus', () => expand(card)); // keyboard focus
+      card.addEventListener('mouseleave', () => collapseAll());
+      card.addEventListener('blur', () => collapseAll());
+    });
+
+    // 触れていない場所をクリックしたら戻す
+    document.addEventListener('pointerdown', (e) => {
+      if (!row.contains(e.target)) collapseAll();
+    });
+
+    // スクロール等で意図せぬはみ出しを防ぐ
+    window.addEventListener('resize', () => {
+      // モバイル縦積み時は拡大状態を解除
+      if (window.matchMedia('(max-width: 720px)').matches) {
+        collapseAll();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
